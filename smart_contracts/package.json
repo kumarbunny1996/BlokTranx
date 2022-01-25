@@ -1,0 +1,34 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "description": "smart contract for ethereum transactions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kumarbunny1996/BlokTranx.git"
+  },
+  "keywords": [
+    "crypto",
+    "Blockchain",
+    "Solidity",
+    "Smart",
+    "Conracts",
+    "Vue",
+    "Tailwind",
+    "Metamask",
+    "ethereum",
+    "testnet",
+    "ethereum",
+    "infura",
+    "Alchemy"
+  ],
+  "author": "sathish",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kumarbunny1996/BlokTranx/issues"
+  },
+  "homepage": "https://github.com/kumarbunny1996/BlokTranx#readme"
+}
