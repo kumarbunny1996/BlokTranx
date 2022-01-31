@@ -1,5 +1,9 @@
 <template>
+  <div v-if="isLoading">
+    <Loader />
+  </div>
   <div
+    v-else
     :class="[
       className,
       layoutClass,
@@ -8,7 +12,6 @@
     @click="() => !isDisabled && !isLoading && onClick()"
   >
     {{ isLoading ? "" : content }}
-    <Loader v-if="isLoading" />
   </div>
 </template>
 <script>
@@ -19,8 +22,7 @@ export default {
   props: {
     className: {
       type: String,
-      default:
-        "flex flex-row justify-center items-center my-5 cursor-pointer p-3 rounded-full",
+      default: "w-full text-center cursor-pointer rounded-full",
     },
     layoutClass: {
       type: String,
