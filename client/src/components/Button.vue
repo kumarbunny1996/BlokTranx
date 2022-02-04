@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isLoading">
+  <div v-if="isLoading.value">
     <Loader />
   </div>
   <div
@@ -7,11 +7,11 @@
     :class="[
       className,
       layoutClass,
-      { 'opacity-50 cursor-not-allowed': isDisabled, 'cursor-wait': isLoading },
+      { 'opacity-50 cursor-not-allowed': isDisabled, 'cursor-wait': isLoading.value },
     ]"
-    @click="() => !isDisabled && !isLoading && onClick()"
+    @click="() => !isDisabled && !isLoading.value && onClick()"
   >
-    {{ isLoading ? "" : content }}
+    {{ isLoading.value ? "" : content }}
   </div>
 </template>
 <script>
@@ -37,8 +37,8 @@ export default {
       default: false,
     },
     isLoading: {
-      type: Boolean,
-      default: false,
+      type: Object,
+      default: {},
     },
     onClick: {
       type: Function,

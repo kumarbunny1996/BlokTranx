@@ -12,6 +12,7 @@
 <script>
 import { watch } from "vue";
 import { ref } from "@vue/reactivity";
+import { toRefs } from "@vue/reactivity";
 
 export default {
   name: "Input",
@@ -35,14 +36,16 @@ export default {
   },
   setup(props) {
     let inputValue = ref("");
+    let { name } = toRefs(props);
     watch(inputValue, (newVal) => {
       let { onInput } = props;
-      inputValue = newVal;
-      onInput(inputValue);
+      inputValue.value = newVal;
+      onInput(inputValue, name.value);
     });
 
     return {
       inputValue,
+      name,
     };
   },
 };

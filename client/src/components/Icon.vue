@@ -26,6 +26,9 @@ export default {
       close: "times close",
       ethereum: "ethereum",
       "info-circle": "info-circle",
+      search: "search",
+      "shield-alt": "shield-alt",
+      heart: "heart",
     };
     return {
       iconMapping,

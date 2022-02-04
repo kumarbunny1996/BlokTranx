@@ -12,7 +12,12 @@
           Explore the crypto world. Buy and sell cryptocurrencies easily on
           Krypto.
         </p>
-        <Button v-bind="btnProps" />
+        <Button
+          v-if="!currentAccount.value"
+          v-bind="btnProps"
+          :isLoading="isLoading"
+          :onClick="connectWallet"
+        />
         <div
           class="grid sm:grid-cols-3 justify-center items grid-cols-2 w-full mt-10"
         >
@@ -46,7 +51,9 @@
               <Icon type="info-circle" />
             </div>
             <div>
-              <p class="text-white font-light text-sm">Address</p>
+              <p class="text-white font-light text-sm">
+                {{ displayCurrentAccount }}
+              </p>
               <p class="text-white font-semibold text-lg mt-1">Ethereum</p>
             </div>
           </div>
@@ -54,12 +61,16 @@
         <div
           class="sm:w-96 w-full p-5 flex flex-col blue-glassmorphism justify-start items-center"
         >
-          <Input v-bind="addressInputProps" />
-          <Input v-bind="amountInputProps" />
-          <Input v-bind="keyInputProps" />
-          <Input v-bind="msgInputProps" />
+          <Input v-bind="addressInputProps" :onInput="handleInput" />
+          <Input v-bind="amountInputProps" :onInput="handleInput" />
+          <Input v-bind="keyInputProps" :onInput="handleInput" />
+          <Input v-bind="msgInputProps" :onInput="handleInput" />
           <div class="h-[1px] w-full bg-gray-400 my-2"></div>
-          <Button v-bind="sendBtnProps" />
+          <Button
+            v-bind="sendBtnProps"
+            :isLoading="isLoading"
+            :onClick="handleSubmit"
+          />
         </div>
       </div>
     </div>
@@ -69,22 +80,53 @@
 import Button from "./Button.vue";
 import Icon from "./Icon.vue";
 import Input from "./Input.vue";
+import { toRefs } from "@vue/reactivity";
 
 export default {
   name: "Welcome",
   components: { Button, Icon, Input },
-  setup() {
+  props: {
+    isLoading: {
+      type: Object,
+      default: {},
+    },
+    currentAccount: {
+      type: Object,
+      default: {},
+    },
+    handleInput: {
+      type: Function,
+      default: () => {},
+    },
+    connectWallet: {
+      type: Function,
+      default: () => {},
+    },
+    sendTransactions: {
+      type: Function,
+      default: () => {},
+    },
+    formdata: {
+      type: Object,
+      default: {},
+    },
+    displayCurrentAccount: {
+      type: Object,
+      default: {},
+    },
+  },
+  setup(props) {
+    let { formdata, sendTransactions } = props;
+
     let btnProps = {
       layoutClass: "text-white bg-[#2952e3] hover:bg-[#2546bd] my-5 p-3",
       content: "Connect Wallet",
-      isLoading: false,
     };
 
     let sendBtnProps = {
       layoutClass:
         "text-white border-[1px] p-2 border-[#3d4f7c] mt-2 hover:bg-[#3d4f7c]",
       content: "Send Eth",
-      isLoading: false,
     };
 
     const companyCommonStyles =
@@ -92,7 +134,7 @@ export default {
 
     let addressInputProps = {
       type: "text",
-      name: "address-to",
+      name: "addressTo",
       placeholder: "Address To",
     };
 
@@ -101,17 +143,28 @@ export default {
       name: "amount",
       placeholder: "Amount",
     };
+
     let keyInputProps = {
       type: "text",
       name: "keyword",
       placeholder: "Keyword",
     };
+
     let msgInputProps = {
       type: "text",
       name: "message",
       placeholder: "Enter Mesaage",
     };
+
+    const handleSubmit = () => {
+      let { addressTo, amount, keyword, message } = formdata;
+      console.log(formdata);
+      if (!addressTo || !amount || !keyword || !message) return;
+      sendTransactions();
+    };
+
     return {
+      formdata,
       btnProps,
       sendBtnProps,
       companyCommonStyles,
@@ -119,6 +172,7 @@ export default {
       amountInputProps,
       msgInputProps,
       keyInputProps,
+      handleSubmit,
     };
   },
 };
